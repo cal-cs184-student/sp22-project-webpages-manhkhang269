@@ -1,173 +1,250 @@
-<p style="text-align: center;"><strong>Task 1: Drawing Single-Color Triangles<br /></strong></p>
+<h2><strong>Task 1: Drawing Single-Color Triangles</strong></h2>
+
 <ul>
-<li>Algorithm:
-<ul>
-<li>Rasterization:
-<ul>
-<li>Pick out the largest x, y and smallest x, y values from the triangle's vertices. Using these four values, we formulate a rectangle covering the whole triangle.</li>
-<li>Loop through each pixel inside this rectangle and check if it is inside the triangle, call <em>fill_pixel</em> if this pixel lies inside the triangle.</li>
+	<li>Algorithm:
+	<ul>
+		<li>Rasterization:
+		<ul>
+			<li>Pick out the largest x, y and smallest x, y values from the triangle&#39;s vertices. Using these four values, we formulate a rectangle covering the whole triangle.</li>
+			<li>Loop through each pixel inside this rectangle and check if it is inside the triangle, call <em>fill_pixel</em> if this pixel lies inside the triangle.</li>
+		</ul>
+		</li>
+		<li>How to check if a pixel is inside a triangle:
+		<ul>
+			<li>Formulate the line function <em>L(x, y)</em> using the vertices A and B.</li>
+			<li>Calculate&nbsp;<em>inside_sign </em>by plugging in C&#39;s coordinates.</li>
+			<li>Calculate <em>inside_</em><em>flag</em> by plugging in the pixel&#39;s coordinates.</li>
+			<li>Compare their signs:
+			<ul>
+				<li>Match: repeat the procedure 2 more times with <em>L(x, y)</em> formulated using vertice B and C, A and C. If all match, this pixel is inside the triangle</li>
+				<li>Not match: this pixel is not within the triangle.</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>Efficiency: this algorithm only inspects x and y between the boundary of smallest and largest values provided. In other words, it only concerns with the pixels inside the bounding rectangle that the triangle fits in.</li>
+	</ul>
+	</li>
 </ul>
-</li>
-<li>How to check if a pixel is inside a triangle:
-<ul>
-<li>Formulate the line function <em>L(x, y)</em> using the vertices A and B.</li>
-<li>Calculate&nbsp;<em>inside_sign </em>by plugging in C's coordinates.</li>
-<li>Calculate <em>inside_</em><em>flag</em> by plugging in the pixel's coordinates.</li>
-<li>Compare their signs:
-<ul>
-<li>Match: repeat the procedure 2 more times with <em>L(x, y)</em> formulated using vertice B and C, A and C. If all match, this pixel is inside the triangle</li>
-<li>Not match: this pixel is not within the triangle.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Efficiency: this algorithm only inspects x and y between the boundary of smallest and largest values provided. In other words, it only concerns with the pixels inside the bounding rectangle that the triangle fits in.</li>
-</ul>
-</li>
-</ul>
-<p><em><img src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task1-1.png" alt="basic/test4.svg" /><br /></em></p>
-<p><em>&nbsp;</em></p>
-<ul>
-<li><em>Basic/test4.svg</em></li>
-</ul>
-<p><strong>&nbsp;</strong></p>
-<p><strong>&nbsp;</strong></p>
-<p style="text-align: center;"><strong>Task 2: Antialiasing by Supersampling<br /></strong></p>
-<ul>
-<li>Algorithm:
-<ul>
-<li>Rasterization:
-<ul>
-<li>Get the bounding rectangle by picking out the largest x, y and smallest x, y values.</li>
-<li>Loop through each pixel inside this rectangle. At each pixel, check if its subpixels are inside the triangle and call <em>fill&shy;_pixel</em> on the subpixels if needed.</li>
-</ul>
-</li>
-<li>How to check if a pixel is inside a triangle:
-<ul>
-<li>Formulate the line function <em>L(x, y)</em> for each pair (A-B, B-C, A-C). We get</li>
-<li>Calculate the <em>flags</em> for each pair using the remaining vertex of a triangle.</li>
-<li>Calculate the <em>inside_flags</em> of the inspected pixel</li>
-<li>Compare signs in pairs</li>
-<li>If all three matches, this pixel lies within the triangle.</li>
-</ul>
-</li>
-<li>How to color a pixel using its subpixels:
-<ul>
-<li>Loop through <em>sample_buffer</em> and average the color of all its subpixels.</li>
-<li>Fill the pixel with this averaged color.</li>
-</ul>
-</li>
-<li>Data structure: extend <em>sample_buffer</em> to accommodate more subpixels of the original pixel.</li>
-<li>Supersampling is useful when we need to smooth out the corners, points or diagonal lines.</li>
-<li>Modification: 2 additional loops were introduced so that the program can inspect the subpixels.</li>
-</ul>
-</li>
-</ul>
-<p><em>&nbsp;</em></p>
-<p><em>&nbsp;</em></p>
-<ul>
-<li><em>basic/test4.svg</em></li>
-</ul>
+
+<p><em><img alt="basic/test4.svg" src="https://raw.githubusercontent.com/cal-cs184-student/sp22-project-webpages-manhkhang269/master/proj1/task1-1.png" style="height:600px; margin-left:auto; margin-right:auto; width:800px" /></em></p>
+
+<p><em>basic/test4.svg</em></p>
+
 <p>&nbsp;</p>
+
 <p>&nbsp;</p>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p><em>sample_rate = 1</em></p>
-</td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p><em>sample_rate = 16</em></p>
-</td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p><em>sample_rate = 4</em></p>
-</td>
-</tr>
-</tbody>
-</table>
-<p><strong>&nbsp;</strong></p>
+
+<hr />
+<h2><strong>Task 2: Antialiasing by Supersampling</strong></h2>
+
 <ul>
-<li>When <em>sample_rate = 1</em>, there are several &ldquo;disconnected&rdquo; pixels, the diagonal lines are also jaggies. Additionally, a pixel either has a very bright color or none at all. As <em>sample_rate</em> increases, the triangles are now seemingly &ldquo;continuous&rdquo;. This happens because when <em>sample_rate = 1</em>, it&rsquo;s hit or miss for a pixel to be considered inside a triangle, but when we take its subpixels into consideration, that pixel can have more than just binary values.<strong><br /></strong></li>
+	<li>Algorithm:
+	<ul>
+		<li>Rasterization:
+		<ul>
+			<li>Pick out the largest x, y and smallest x, y values from the triangle&#39;s vertices. Using these four values, we formulate a rectangle covering the whole triangle.</li>
+			<li>Loop through each pixel inside this rectangle. At each pixel, check if its subpixels are inside the triangle and call <em>fill&shy;_pixel</em> on the subpixels if needed.</li>
+		</ul>
+		</li>
+		<li>How to check if a subpixel is inside a triangle:
+		<ul>
+			<li>Formulate the line function <em>L(x, y)</em> using the vertices A and B.</li>
+			<li>Calculate&nbsp;<em>inside_sign </em>by plugging in C&#39;s coordinates.</li>
+			<li>Calculate <em>inside_</em><em>flag</em> by plugging in the pixel&#39;s coordinates.</li>
+			<li>Compare their signs:
+			<ul>
+				<li>Match: repeat the procedure 2 more times with <em>L(x, y)</em> formulated using vertice B and C, A and C. If all match, this pixel is inside the triangle</li>
+				<li>Not match: this pixel is not within the triangle.</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>How to color a pixel using its subpixels:
+		<ul>
+			<li>Loop through <em>sample_buffer</em> and average the color of all its subpixels.</li>
+			<li>Fill the pixel with this color.</li>
+		</ul>
+		</li>
+		<li>Data structure: extend array <em>sample_buffer</em> to accommodate more subpixels of the original pixel.</li>
+		<li>Supersampling is useful when we need to smooth out the corners, points or diagonal lines, in short, reduce jaggies.</li>
+		<li>Modification: 2 additional loops were introduced so that the program can inspect individual subpixel at each point.</li>
+	</ul>
+	</li>
 </ul>
-<p style="text-align: center;"><strong>Task 3: Transforms<br /></strong></p>
-<p><strong>&nbsp;</strong></p>
-<p><strong>&nbsp;</strong></p>
-<p style="text-align: center;"><strong>Task 4: Barycentric coordinates<br /></strong></p>
-<ul>
-<li>From my perspective, barycentric coordinates is an approximation of various attributes (namely color) based on relative coordinates.</li>
-</ul>
-<p style="text-align: center;"><strong>&nbsp;</strong></p>
-<p style="text-align: center;"><strong>Task 5: "Pixel sampling" for texture mapping"<br /></strong></p>
-<ul>
-<li>What we have been doing so far is filling the whole triangle with a single color, or at most using a color derived from the relation between 2 colors. On the other hand, pixel sampling is when you &ldquo;sample&rdquo; a pixel&rsquo;s color from the texture file, then copy (sometimes with modification) that pixel over to the relative position on the triangle. It&rsquo;s like cutting a picture into pieces then stretch, compress and glue them together to make a new, sometimes uglier, picture. There are two ways in which pixel sampling is done, they all start with translating the coordinates of the picture we are drawing to the coordinates pre-drawn picture (called texture file). Once we have the texture&rsquo;s coordinate of the pixel, we have two options. The first being getting color of the pixel nearest to the point being inspected, this is why it&rsquo;s called Nearest Sampling. The second requires much more work as we look at all four pixels around that point, average the color, then copy that over to our canvas, this is called Bilinear sampling.</li>
-</ul>
+
 <p>&nbsp;</p>
+
+<table border="1" cellspacing="0" style="height:603px; width:100%">
+	<tbody>
+		<tr>
+			<td style="height:603px; width:33.3333%">
+			<p><em>&nbsp;</em></p>
+
+			<p><em><img alt="sample_rate == 1" src="https://raw.githubusercontent.com/cal-cs184-student/sp22-project-webpages-manhkhang269/master/proj1/task2-1.png" style="height:600px; width:600px" /></em></p>
+
+			<p><em>sample_rate == 1</em></p>
+			</td>
+			<td style="height:603px; width:33.3333%">
+			<p><em><img alt="sample_rate == 4" src="https://raw.githubusercontent.com/cal-cs184-student/sp22-project-webpages-manhkhang269/master/proj1/task2-4.png" style="height:600px; width:600px" /></em></p>
+
+			<p><em>sample_rate == 4</em></p>
+			</td>
+			<td style="height:603px; width:33.3333%">
+			<p><em><img alt="sample_rate == 16" src="https://raw.githubusercontent.com/cal-cs184-student/sp22-project-webpages-manhkhang269/master/proj1/task2-16.png" style="height:600px; width:600px" /></em></p>
+
+			<p><em>sample_rate == 16</em></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><em>basic/test4.svg</em></p>
+
+<p><strong>&nbsp;</strong></p>
+
+<ul>
+	<li>When <em>sample_rate = 1</em>, there are several &ldquo;disconnected&rdquo; pixels, the diagonal lines are also jaggies. Additionally, a pixel either has a very bright color or none at all (white). As <em>sample_rate</em> increases, the triangles are now seemingly &ldquo;continuous&rdquo;. This happens because when <em>sample_rate = 1</em>, it&rsquo;s either hit or miss for a pixel to be considered inside a triangle, but when we take its subpixels into consideration, that pixel can have more than just binary values.</li>
+</ul>
+
 <p>&nbsp;</p>
-<ul>
-<li>&nbsp;</li>
-</ul>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p>Bilinear Sampling</p>
-<p>1 sample per pixel</p>
-</td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p>Nearest Sampling</p>
-<p>1 sample per pixel</p>
-</td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p>Bilinear Sampling</p>
-<p>16 sample per pixel</p>
-</td>
-</tr>
-</tbody>
-</table>
-<table width="100%">
-<tbody>
-<tr>
-<td>
-<p>Nearest Sampling</p>
-<p>16 sample per pixel</p>
-</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>While supersampling does help in smoothing out the edges, bilinear sampling method always seem to do a better job at making the image looking less &ldquo;sharp&rdquo;.</li>
-</ul>
+
+<p>&nbsp;</p>
+
+<hr />
+<h2><strong>Task 3: Transforms</strong></h2>
+
 <p><strong>&nbsp;</strong></p>
+
 <p><strong>&nbsp;</strong></p>
-<p style="text-align: center;"><strong>Task 6: "Level sampling" with mipmaps for texture mapping<br /></strong></p>
+
+<hr />
+<h2><strong>Task 4: Barycentric coordinates</strong></h2>
+
 <ul>
-<li>Level sampling does exactly what pixel sampling does, but better! Level sampling not only prefilters the texture to reduce alias, but also improve the speed of sampling textures. As for the coding side, all the fundamental steps are reserved from rasterization of triangles. The only difference is that the code will do a lot of work in looking for the correct color to fill in the pixels:
-<ul>
-<li>&nbsp;</li>
+	<li>Barycentric coordinates is an approximation of various attributes (namely color) based on relative coordinates.</li>
 </ul>
-</li>
+
+<p><img alt="Task 4" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task4-1.png?raw=true" style="height:416px; margin-left:auto; margin-right:auto; width:500px" /></p>
+
+<ul>
+	<li>Take this image as an example, we know the color at vertex A is red, B is green and C is blue. Our objective is to fill the whole triangle with color. Barycentric coordinates will help us &quot;guess&quot; the color at any given point inside the triangle.</li>
+</ul>
+
+<p><img alt="basic/svg/test7.svg" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task4-2.png?raw=true" style="height:600px; width:800px" /></p>
+
+<p><em>basic/svg/test7.svg</em></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<hr />
+<h2><strong>Task 5: &quot;Pixel sampling&quot; for texture mapping&quot;</strong></h2>
+
+<ul>
+	<li>What we have been doing so far is filling the whole triangle with a single color, or at most using a color derived from the relation between 2 colors. On the other hand, pixel sampling is when you &ldquo;sample&rdquo; a pixel&rsquo;s color from the texture file, then transfer (sometimes with modification) that color over to the pixel at relative position on the triangle. It&rsquo;s like cutting a picture into pieces then stretch, compress and glue them together to make a new, hopefully better but sometimes uglier, picture.</li>
+	<li>There are two ways in which pixel sampling is done, they all start with translating the coordinates of the canvas, which we are drawing, to the coordinates of the pre-drawn picture (called texture file). Once we have the texture&rsquo;s coordinates of the pixel, we have two options:
+	<ul>
+		<li>The first being getting color of the pixel nearest to the pixel being inspected, transfer that color without any modifications to the canvas - This is called Nearest Sampling.</li>
+		<li>The second requires much more work as we look at all four pixels around that point, average the color, then apply that onto the canvas - This is called Bilinear sampling.</li>
+	</ul>
+	</li>
+	<li>How I did it:
+	<ul>
+		<li>Rasterizing a triangle stays the same as described in <em>Task 1</em></li>
+		<li>There is no preset color given this time, use barycentric coordinates to translate canvas&#39; coordinates (x, y) into texture&#39;s coordinates (u, v).</li>
+		<li><em>u </em>and <em>v</em>&#39;s range is [0, 1]. Must multiply with texture&#39;s dimensions to get actual data point (tx, ty) in &#39;float&#39; type.</li>
+		<li>There are 2 methods to get pixel&#39;s color from here:
+		<ul>
+			<li>Nearest Sampling: round (tx, ty) to the nearest integer, retrieve and return pixel&#39;s color from texture map.</li>
+			<li>Bilinear Sampling: collect and average colors (using linear interpolation) of all the adjacent pixels (4 to be exact), then return this color.</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<tbody>
+		<tr>
+			<td>
+			<p><img alt="Task 5 - sample_ rate == 1 - nearest sampling" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task5-1-near.png?raw=true" style="height:600px; width:600px" /></p>
+
+			<p><em>sample_rate == 1 ; nearest sampling</em></p>
+			</td>
+			<td>
+			<p><img alt="Task 5 - sample_rate == 1 - bilinear sampling" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task5-1-bi.png?raw=true" style="height:600px; width:600px" /></p>
+
+			<p><em>sample_rate == 1 ; bilinear sampling</em></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><img alt="Task 5 - sample_rate == 16 - nearest sampling" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task5-16-near.png?raw=true" style="height:600px; width:600px" /></p>
+
+			<p><em>sample_rate == 16 ; nearest sampling</em></p>
+			</td>
+			<td>
+			<p><em><img alt="Task 5 - sample_rate == 16 - bilinear sampling" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task5-26-bi.png?raw=true" style="height:600px; width:600px" /></em></p>
+
+			<p><em>sample_rate == 16 ; bilinear sampling</em></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<ul>
+	<li>While supersampling does help in smoothing out the edges, bilinear sampling method always seems to do a better job at making the image looking less &ldquo;sharp&rdquo;. This is because supersampling relies on a more naive approach: averaging regardless of actual distance from the inquiring pixel to its neighbors, like how communism or group projects in high school go: resources / grades are equally divided upon every member regardless of real individual effort, it works but not necessarily the best option, still better than all or nothing as we can see in the example where <em>sample_rate == 1</em>. Bilinear uses a fancy mathematical approach - linear interpolation - to make an educated guess of how a pixel on the canvas should look like, thus, yields a much more acceptable result.</li>
+</ul>
+
+<p><strong>&nbsp;</strong></p>
+
+<p><strong>&nbsp;</strong></p>
+
+<p>&nbsp;</p>
+
+<hr />
+<h2><strong>Task 6: &quot;Level sampling&quot; with mipmaps for texture mapping</strong></h2>
+
+<ul>
+	<li>Level sampling does exactly what pixel sampling does, but better! Level sampling not only prefilters the texture to reduce alias, but also improve the speed of sampling textures.</li>
+	<li>As for the coding&#39;s side, all the fundamental steps are reserved from rasterization of triangles to using barycentric coordinates to retrieve texture&#39;s coordinates. The only difference is in the looking up pixels part because we now have multiple copies of a same texture at different resolutions. These texture files are stored in different &quot;levels&quot;. Therefore, we must calculate which level we need access to using differential. Important to point out, we can be <strong>inbetween</strong> the levels. Once we know the &quot;level&quot;:
+	<ul>
+		<li>Go to the nearest level and pick the texture file in the safe, then either use nearest sampling or bilinear sampling to sample pixels.</li>
+		<li>Pick both lower and upper level, get both texture files, use either nearest sampling or bilinear sampling to sample pixels, then interpolate the results from both textures. Finally, also apply linear interpolation on the &quot;level&quot; before merging the colors.</li>
+	</ul>
+	</li>
+	<li>Examples:</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td>L_ZERO</td>
+			<td>L_NEAREST</td>
+			<td>L_LINEAR</td>
+		</tr>
+		<tr>
+			<td>P_NEAREST</td>
+			<td><img alt="Task 6 - L_ZERO - P_NEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lzero-pnear.png?raw=true" style="height:600px; width:600px" /></td>
+			<td><img alt="Task 6 - L_NEAR - P_NEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lnear-pnear.png?raw=true" style="height:600px; width:600px" /></td>
+			<td><img alt="Task 6 - L_BININEAR - P_NEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lbilinear-pnear.png?raw=true" style="height:600px; width:600px" /></td>
+		</tr>
+		<tr>
+			<td>P_LINEAR</td>
+			<td><img alt="Task 6 - L_ZERO - PBILINEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lzero-pbilinear.png?raw=true" style="height:600px; width:600px" /></td>
+			<td><img alt="Task 6 - L_NEAR - PBILINEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lnear-pbilinear.png?raw=true" style="height:600px; width:600px" /></td>
+			<td><img alt="Task 6 - L_BILINIEA - P_BILINEAR" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj1/task6-lbilinear-pbilinear.png?raw=true" style="height:600px; width:600px" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li>Without a doubt, L_LINEAR needs the most memory since it must keep various copies of the same picture in the system. However, the rendered picture will always retain its general shape, as in easier to recognize when being zoomed out. With this in mind, we can say that the antialias attribute is strong when we use linear approach. But this comes at a cost of both memory usage and speed as there is much more computations to go through, namely barycentric coordinates. This approach is only suitable for powerful proccessors.</li>
+	<li>The basic settings (L_ZERO, P_NEAREST) surely offers the highest render speed as well as quality when we need to inspect the picture/object closely. That being said, the picture will lose details quickly as we move further away (zoom out). This is definitely the most reasonable option for portable systems or some that have limited computing power.</li>
+	<li>NEAREST approach seems to be the most rounded options as it also requires as much memory as LINEAR but does not need quite as much number crunching operations. Still more than L_ZERO case since this approach requires barycentric coordinates to figure out the appropriate level. In summary, it performs arguably well in any given situation, a jack of all trades.</li>
 </ul>
