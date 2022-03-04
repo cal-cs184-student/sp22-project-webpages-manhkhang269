@@ -1,7 +1,234 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 2 here
-	</body>
-</html>
+<p style="text-align:center"><span style="font-size:28px"><strong>Project 2</strong></span></p>
+
+<p><span style="font-size:16px"><u><strong>Part 1:</strong></u> <strong>Bezier Curvers with 1D de Castelijau Subdivision</strong></span></p>
+
+<ul>
+	<li><span style="font-size:12px">Casteljau&#39;s algorithm, in essence, is doing linear interpolation recursively until we find a spline for the curve.</span></li>
+	<li><span style="font-size:12px">As for the actual coding: after each run, a new vector consists of one less coordinate is produced through linear interpolation. The final step is where there are only 2 points left in the vector which, in turn, produces a single point.</span></li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:924px">
+	<tbody>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Original</span></td>
+			<td style="width:431px"><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc0.png?raw=true" style="height:337px; width:431px" /></span></td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc0_on.png?raw=true" style="height:297px; width:512px" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Step 1</span></td>
+			<td style="width:431px"><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc1.png?raw=true" /></span></td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc1_on.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Step 2</span></td>
+			<td style="width:431px"><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc2.png?raw=true" /></span></td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc2_on.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Step 3</span><br />
+			&nbsp;</td>
+			<td style="width:431px"><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc3.png?raw=true" style="height:290px; width:505px" /></span></td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc3_on.png?raw=true" style="height:294px; width:429px" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Step 4</span></td>
+			<td style="width:431px">
+			<p><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc4.png?raw=true" style="height:281px; width:431px" /></span></p>
+			</td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc4_on.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Step 5</span></td>
+			<td style="width:431px"><span style="font-size:16px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc5.png?raw=true" /></span></td>
+			<td style="width:429px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc5_on.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li><span style="font-size:12px">Some random Bezier Curves:</span></li>
+</ul>
+
+<p style="text-align:center"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc_ran1.png?raw=true" style="height:372px; width:637px" /></p>
+
+<p style="text-align:center"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc_ran2.png?raw=true" style="height:373px; width:641px" /></p>
+
+<p style="text-align:center"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part1/bzc_ran3.png?raw=true" style="height:373px; width:644px" /></p>
+
+<p>&nbsp;</p>
+
+<hr />
+<p><span style="font-size:16px"><u><strong>Part 2:</strong></u> <strong>Bezier Curvers with Separable 1D de Casteljau</strong></span></p>
+
+<ul>
+	<li>While dealing with surfaces introduces an extra coordinate value, the main idea of Casteljau algorithm stays the same: Use linear interpolation recursively until there is only one point left.</li>
+	<li>How to handle in code:
+	<ul>
+		<li>4 x 4 array of control points is given</li>
+		<li>Apply 1D Casteljau on each &quot;row&quot; to get 1 single point for that respective row.</li>
+		<li>Apply 1D Casteljau again on the array made by those points. Finally, we get a Bezier point.</li>
+	</ul>
+	</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1174px">
+	<tbody>
+		<tr>
+			<td style="text-align:center; width:577px"><span style="font-size:12px">With Mesh</span></td>
+			<td style="text-align:center; width:583px"><span style="font-size:12px">Without Mesh</span></td>
+		</tr>
+		<tr>
+			<td style="width:577px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part2/w_mesh.png?raw=true" /></td>
+			<td style="width:583px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part2/wo_mesh.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
+<p><span style="font-size:16px"><u><strong>Part 3:</strong></u> <strong>Area-Weighted Vertex Normals</strong></span></p>
+
+<p>Area-weighted vertex normals the &quot;normal&quot; way:</p>
+
+<ul>
+	<li>Loop around the current vertex, at any non-boundary face:
+	<ul>
+		<li>Get 2 other edges, form 2 vectors with these 3 vertices, normal vector of this face is achieved by finding cross product between these 2 vectors.</li>
+	</ul>
+	</li>
+	<li>Find the sum vector of all non-boundary faces&#39; normals.</li>
+	<li>Normalize the sum vector and return it.</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1195px">
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="text-align:center; width:555px"><span style="font-size:12px">Flat Shading</span></td>
+			<td style="text-align:center; width:569px"><span style="font-size:12px">Phong Shading</span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Mesh</span></td>
+			<td style="width:555px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part3/flat_mesh.png?raw=true" /></span></td>
+			<td style="width:569px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part3/phong_mesh.png?raw=true" /></span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Without Mesh</span></td>
+			<td style="width:555px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part3/flat.png?raw=true" /></td>
+			<td style="width:569px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part3/phong.png?raw=true" /></span></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<hr />
+<p><span style="font-size:16px"><u><strong>Part 4:</strong></u> <strong>Edge Flip</strong></span></p>
+
+<ul>
+	<li>&nbsp;This part requires careful consideration before actual coding:
+	<ul>
+		<li>Draw a diagram consists of before and after the flip.</li>
+		<li>Write down what could change and what not.</li>
+		<li>Reassign them accordingly (new next halfedges, faces with new halfedges).</li>
+		<li>Deleting old edge or faces is not neccessary, this will optimize the program as it does not need to free and allocate the same piece of memory. All we need to do is replace all the neccessary values in this memory space. While this might seem insignificant when we only flip a couple of edges, it will matter latter in part 6 where we must flip multiple edges.</li>
+	</ul>
+	</li>
+	<li>I did not encounter any significant bug in this part besides my own logic. But once everything was written down, it became clearer than ever.</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1159px">
+	<tbody>
+		<tr>
+			<td style="text-align:center; width:570px"><span style="font-size:12px">Before</span></td>
+			<td style="text-align:center; width:576px"><span style="font-size:12px">After Some Flips</span></td>
+		</tr>
+		<tr>
+			<td style="width:570px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part4/before.png?raw=true" /></td>
+			<td style="width:576px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part4/after.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<hr />
+<p><span style="font-size:16px"><u><strong>Part 5:</strong></u> <strong>Edge Split</strong></span></p>
+
+<p>Similar to the previous part, part 5 requires careful consideration before actual coding:</p>
+
+<ul>
+	<li>Write down the total number of each element (face, halfedge, vertex) before and after spliting the edge.</li>
+	<li>Again, deleting existing edges / faces / halfedges is not necessary and we can &quot;recycle&quot; them.</li>
+	<li>The new vertex is the midpoint of the given edge.</li>
+	<li>After making new vertex, I simply reassign all relations according to what I have written down.</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1055px">
+	<tbody>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">Before</span></td>
+			<td style="width:942px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part4/before.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">After some splitting</span></td>
+			<td style="width:942px">
+			<p><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part5/split.png?raw=true" /></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align:center"><span style="font-size:12px">After some splitting and flipping</span></td>
+			<td style="width:942px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part5/split_flip.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+<hr />
+<p><span style="font-size:16px"><u><strong>Part 6:</strong></u> <strong>Loop Subdivision for Mesh Upsampling</strong></span></p>
+
+<p>I had to add an extra variable to the Edge class which is Vertex::isSplit and the reason will be explained shortly. How I code Loop Subdivision:</p>
+
+<ol>
+	<li>Compute new positions for all vertices in the input mesh, store them in Vertex::newPosition. Mark all vertices as old (Vertex::isNew = false)</li>
+	<li>Compute the updated vertex positions associated with edges, and store it in Edge::newPosition. Mark all edges as old and not split (Vertex::isNew = false; Vertex::isSplit = false)</li>
+	<li>Split every edge that is NOT NEW AND NOT SPLIT in the mesh using split function created in part 5. When we split an edge, we will have 4 edges as a result in the edge list, but only 2 of them are new while the other 2 that were along the original edge are now SPLITTED. Vertex::isSplit was added to prevent an infinite loop where we keep splitting these splitted edges. While splitting edges, assign the precomputed Edge::newPosition to the new vertex&#39;s newPosition.</li>
+	<li>Flip any NEW edge that connects an old and new vertex.</li>
+	<li>Copy the new vertex positions into final Vertex::position for vertices that belong to the original mesh. For new vertices which we create during splitting edge operations, we must get its position from the edge associated with its halfedge</li>
+</ol>
+
+<table border="1" cellpadding="1" cellspacing="1" style="height:689px; width:1136px">
+	<tbody>
+		<tr>
+			<td style="text-align:center; width:62px"><span style="font-size:12px">Iteration</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px">Mesh</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px">No Mesh</span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:62px"><span style="font-size:12px">0th</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_ori.png?raw=true" /></span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_ori_nomesh.png?raw=true" /></span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:62px"><span style="font-size:12px">1st</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_1.png?raw=true" /></span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_1_nomesh.png?raw=true" /></span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:62px"><span style="font-size:12px">2nd</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_2.png?raw=true" /></span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_2_nomesh.png?raw=true" /></span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:62px"><span style="font-size:12px">3rd</span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_3.png?raw=true" /></span></td>
+			<td style="text-align:center; width:528px"><span style="font-size:12px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj2/img/part6/cow_3_nomesh.png?raw=true" /></span></td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li>The number of edges and faces increase significantly after each loop subdivision. However, we get much smoother corners compared to the &quot;raw&quot; version in exchange for rendering time.</li>
+	<li>Pre-splitting edges / sharp corners seem to help pertaining the &quot;sharpness&quot; characteristic instead of smoothing them.</li>
+	<li>The cube becomes a sphere with several pointy corners after several subdivisions, which makes it almost impossible to fix with manual flipping and splitting edges since these operations will make those characteristic to be more prominent.</li>
+</ul>
