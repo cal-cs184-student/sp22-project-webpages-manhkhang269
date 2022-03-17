@@ -1,7 +1,53 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Project 3-1 here
-	</body>
-</html>
+<p style="text-align:center"><strong><span style="font-size:26px">Project 3-1</span></strong></p>
+
+<p><strong><u><span style="font-size:16px">Part 1:</span></u></strong><span style="font-size:16px"> <strong><em>Generating Camera Rays</em></strong></span></p>
+
+<ul>
+	<li><span style="font-size:14px">Ray generation:</span>
+
+	<ul>
+		<li><span style="font-size:14px">Convert the provided coordinate into camera ray using normal arithmetic.</span></li>
+		<li>Transform camera ray into world ray by multiplying with c2w matrix, normalize this world ray.</li>
+		<li>Initialize a new ray with origin at the camera&#39;s position with direction as the previously calculated world ray, set min_t, max_t, then return it.</li>
+	</ul>
+	</li>
+	<li>Ray - Triangle Intersection: Apply Moller Trumbore Algorithm - if there is an intersection between the ray and triangle:
+	<ul>
+		<li>Assign new max_t</li>
+		<li>Calculate the intersection point p.</li>
+		<li>Calculate p&#39;s normal with barycentric coordinates using the smaller triangles&#39; areas.</li>
+	</ul>
+	</li>
+	<li>Ray - Sphere Intersection: Apply formula in the slide, solve for t, assign t1 such that t1 is always less than or equal to t2.
+	<ul>
+		<li>t1 &lt; 0, if t2 &lt;= max_t, there is an intersection and we can find that point with t2 by plugging it into the ray function.</li>
+		<li>t1 &gt; 0 and t1 &lt; max_t, the intersection point can be found with t1.</li>
+	</ul>
+	</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1000px">
+	<tbody>
+		<tr>
+			<td style="text-align:center">cube.dae</td>
+			<td style="width:791px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj3-1/img/part1/cube.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center">teapot.dae</td>
+			<td style="width:791px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj3-1/img/part1/teapot.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center">CBspheres_microfacet_al_ag.dae</td>
+			<td style="width:791px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj3-1/img/part1/CBspheres_microfacet_al_ag.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center">CBgems.dae</td>
+			<td style="width:791px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj3-1/img/part1/CBgems.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<hr />
+<p><strong><u><span style="font-size:16px">Part 2:</span></u></strong><span style="font-size:16px"> <strong><em>Bounding Volume Hierarchy</em></strong></span></p>
+
+<p>&nbsp;</p>
