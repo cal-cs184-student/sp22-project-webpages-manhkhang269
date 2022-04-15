@@ -135,4 +135,71 @@
 <hr />
 <p><strong><u><span style="font-size:16px">Part 5:</span></u></strong><span style="font-size:16px"> <strong><em>Shaders</em></strong></span></p>
 
-<p>&nbsp;</p>
+<ul>
+	<li>A shader program is a user-defined program designed for shading in 3D scenes by transforming vertices and fragments. After rasterization, we end up with fragments, which these shaders process. These shaders generally take in geometric attributes of the fragment calculated by the vertex shader to compute and output a color on that &quot;pixel&quot;.</li>
+	<li>Blinn-Phong, in short, is an approximation of reflected lighting.</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1176px">
+	<tbody>
+		<tr>
+			<td style="text-align:center; width:202px">Only Ambient Component</td>
+			<td style="width:961px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/phong_amb.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:202px">Only Diffuse Component</td>
+			<td style="width:961px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/phong_dif.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:202px">Only Specular Component</td>
+			<td style="width:961px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/phong_pho.png?raw=true" style="height:827px; width:1023px" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center; width:202px">Blinn-Phong Model</td>
+			<td style="width:961px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/phong_all.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li>Modified texture:</li>
+</ul>
+
+<p><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/mod_tex.png?raw=true" /></p>
+
+<ul>
+	<li>Bump mapping &amp; Displacement mapping
+	<ul>
+		<li>Bump mapping is more of a &quot;fake&quot; approach to texture mapping as it only modifies the representing color but not actual vertices&#39; positions. This might reduce the realistic characteristic of the program be it a VR program, or game, or something as simple as a rendering where objects collide each other. For this reason, increasing mesh&#39;s coarseness does little to none to the final product.</li>
+		<li>Displacement mapping, on the other hand, is more realistically immersive as it displaces vertices to fit the actual texture. Thus, increasing mesh&#39;s coarseness is worthwhile.</li>
+	</ul>
+	</li>
+</ul>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:1203px">
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td style="text-align:center; width:551px">-o 16 -a 16</td>
+			<td style="text-align:center; width:554px">-o 128 -a 128</td>
+		</tr>
+		<tr>
+			<td style="text-align:center">Bump</td>
+			<td style="width:551px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/bump_16.png?raw=true" style="height:476px; width:601px" /></td>
+			<td style="width:554px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/bump_128.png?raw=true" /></td>
+		</tr>
+		<tr>
+			<td style="text-align:center">Displacement</td>
+			<td style="width:551px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/displacement_16.png?raw=true" /></td>
+			<td style="width:554px"><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/displacement_128.png?raw=true" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li>Mirror mapping:</li>
+</ul>
+
+<p><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/mirror_1.png?raw=true" /></p>
+
+<p><img alt="" src="https://github.com/cal-cs184-student/sp22-project-webpages-manhkhang269/blob/master/proj4/img/p5/mirror_2.png?raw=true" /></p>
